@@ -3,13 +3,19 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Roblox Admin Panel</title>
+<title>Roblox Web Admin</title>
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
+}
+
 body{
-font-family: Arial, sans-serif;
-background:#0f0f0f;
+background:#0f0f12;
 color:white;
 display:flex;
 justify-content:center;
@@ -18,56 +24,134 @@ height:100vh;
 }
 
 .panel{
-background:#1b1b1b;
-padding:30px;
-border-radius:10px;
-width:400px;
-box-shadow:0 0 20px rgba(0,0,0,0.6);
+
+width:900px;
+background:#1a1a1f;
+border-radius:12px;
+box-shadow:0 0 30px rgba(0,0,0,0.7);
+padding:25px;
+
 }
 
-h1{
-text-align:center;
-margin-bottom:25px;
+.header{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px;
+
 }
 
-input{
-width:100%;
-padding:10px;
-margin-top:10px;
-border:none;
-border-radius:5px;
-background:#2a2a2a;
-color:white;
-}
-
-button{
-width:100%;
-padding:12px;
-margin-top:15px;
-border:none;
-border-radius:6px;
-background:#4CAF50;
-color:white;
-font-size:16px;
-cursor:pointer;
-}
-
-button:hover{
-background:#45a049;
+.header h1{
+font-size:22px;
 }
 
 .section{
 margin-top:20px;
 }
 
+input{
+
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:6px;
+background:#2b2b31;
+color:white;
+
+}
+
+button{
+
+padding:10px 18px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-size:14px;
+
+}
+
+.kickBtn{
+background:#e74c3c;
+color:white;
+margin-top:10px;
+}
+
+.kickBtn:hover{
+background:#c0392b;
+}
+
+.printBtn{
+background:#3498db;
+color:white;
+margin-top:10px;
+}
+
+.printBtn:hover{
+background:#2980b9;
+}
+
+.editorContainer{
+
+margin-top:25px;
+
+}
+
+.editorHeader{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:8px;
+
+}
+
+.executeBtn{
+
+background:#2ecc71;
+color:white;
+
+}
+
+.executeBtn:hover{
+background:#27ae60;
+}
+
+textarea{
+
+width:100%;
+height:300px;
+background:#0d0d10;
+border:none;
+color:#00ff9c;
+padding:15px;
+font-family:monospace;
+font-size:14px;
+border-radius:8px;
+resize:none;
+
+}
+
+.footer{
+
+margin-top:15px;
+font-size:12px;
+color:#888;
+
+}
+
 </style>
+
 </head>
 
 <body>
 
 <div class="panel">
 
-<h1>Admin Panel</h1>
+<div class="header">
+<h1>Roblox Web Admin Panel</h1>
+</div>
 
 <div class="section">
 
@@ -75,7 +159,7 @@ margin-top:20px;
 
 <input id="player" placeholder="Username">
 
-<button onclick="kickPlayer()">Kick Player</button>
+<button class="kickBtn" onclick="kickPlayer()">Kick Player</button>
 
 </div>
 
@@ -85,7 +169,31 @@ margin-top:20px;
 
 <input id="printmsg" placeholder="Message to print">
 
-<button onclick="sendPrint()">Send Print</button>
+<button class="printBtn" onclick="sendPrint()">Send Print</button>
+
+</div>
+
+<div class="editorContainer">
+
+<div class="editorHeader">
+<h3>Script Executor</h3>
+
+<button class="executeBtn" onclick="executeScript()">Execute</button>
+
+</div>
+
+<textarea id="scriptEditor">
+
+-- Example script
+print("Hello from web admin")
+
+</textarea>
+
+</div>
+
+<div class="footer">
+
+Connected to Render backend
 
 </div>
 
@@ -109,10 +217,11 @@ type:"kick",
 player:player
 })
 })
+
 .then(res=>res.json())
 .then(data=>{
-console.log(data)
 alert("Kick command sent")
+console.log(data)
 })
 
 }
@@ -131,10 +240,34 @@ type:"print",
 message:msg
 })
 })
+
 .then(res=>res.json())
 .then(data=>{
-console.log(data)
 alert("Print command sent")
+console.log(data)
+})
+
+}
+
+function executeScript(){
+
+const code = document.getElementById("scriptEditor").value
+
+fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+type:"execute",
+script:code
+})
+})
+
+.then(res=>res.json())
+.then(data=>{
+alert("Script sent to server")
+console.log(data)
 })
 
 }
@@ -142,4 +275,5 @@ alert("Print command sent")
 </script>
 
 </body>
+
 </html>
