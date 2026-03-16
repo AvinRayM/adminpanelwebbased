@@ -28,7 +28,7 @@ app.post("/command", (req, res) => {
 // roblox fetches commands
 app.get("/commands", (req, res) => {
     res.json(commands);
-    commands = []; // Prevents duplicate executions
+    commands = []; // Clear queue to prevent duplicate executions
 });
 
 app.listen(3000, () => {
