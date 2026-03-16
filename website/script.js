@@ -20,6 +20,8 @@ alert("Command sent")
 .catch(err => {
 console.error(err)
 })
+  
+}
 
 function sendPrint(){
 
