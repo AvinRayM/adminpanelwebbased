@@ -1,18 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Roblox Admin Panel</title>
+<title>Admin Panel</title>
 </head>
 
 <body>
 
-<h1>Game Admin Panel</h1>
+<h1>Kick Player</h1>
 
 <input id="player" placeholder="Username">
 
 <button onclick="kickPlayer()">Kick Player</button>
 
-<script src="script.js"></script>
+<script>
+
+function kickPlayer(){
+
+const player = document.getElementById("player").value
+
+fetch("https://adminpanelwebbased.onrender.com/command",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+type:"kick",
+player:player
+})
+})
+.then(res => res.json())
+.then(data => console.log(data))
+
+}
+
+</script>
 
 </body>
 </html>
