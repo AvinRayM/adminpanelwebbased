@@ -9,7 +9,7 @@ app.use(express.json());
 
 // --- SECURE DISCORD WEBHOOK URL ---
 // PASTE YOUR DISCORD WEBHOOK URL HERE:
-const DISCORD_WEBHOOK = "YOUR_DISCORD_WEBHOOK_URL_HERE";
+const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1482931564584239205/hLkTGPF2GrOaLFBIfkZciIzTLbRskhvFNlF0U2Ye8ZSRjAQ0WW7VG2kAylh_YJL2gyHd";
 
 let commands = [];
 let blacklistedIPs = [];      // Ban by IP
