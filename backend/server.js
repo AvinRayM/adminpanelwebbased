@@ -11,16 +11,29 @@ let commands = []
 // website sends command
 app.post("/command", (req,res)=>{
     const cmd = req.body
-    commands.push(cmd)
-    res.json({status:"ok"})
+    
+    // Ensure we have the required fields
+    if (cmd.type === "execute" && cmd.script && cmd.username) {
+        commands.push({
+            type: cmd.type,
+            script: cmd.script,
+            username: cmd.username,
+            timestamp: Date.now()
+        })
+        res.json({status:"ok", message: "Command queued"})
+    } else {
+        res.status(400).json({status: "error", message: "Missing required fields (script or username)"})
+    }
 })
 
 // roblox fetches commands
 app.get("/commands",(req,res)=>{
     res.json(commands)
+    // Clear commands after they are fetched so they don't execute multiple times
     commands = []
 })
 
-app.listen(3000, ()=>{
-    console.log("Server running")
+const PORT = process.env.PORT || 3000
+app.listen(PORT, ()=>{
+    console.log(`Server running on port ${PORT}`)
 })
