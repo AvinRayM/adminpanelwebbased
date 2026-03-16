@@ -1,24 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<title>Admin Panel</title>
+<meta charset="UTF-8">
+<title>Roblox Admin Panel</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#0f0f0f;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.panel{
+background:#1b1b1b;
+padding:30px;
+border-radius:10px;
+width:400px;
+box-shadow:0 0 20px rgba(0,0,0,0.6);
+}
+
+h1{
+text-align:center;
+margin-bottom:25px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:10px;
+border:none;
+border-radius:5px;
+background:#2a2a2a;
+color:white;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:6px;
+background:#4CAF50;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#45a049;
+}
+
+.section{
+margin-top:20px;
+}
+
+</style>
 </head>
 
 <body>
 
-<h1>Kick Player</h1>
+<div class="panel">
+
+<h1>Admin Panel</h1>
+
+<div class="section">
+
+<h3>Kick Player</h3>
 
 <input id="player" placeholder="Username">
 
 <button onclick="kickPlayer()">Kick Player</button>
 
+</div>
+
+<div class="section">
+
+<h3>Server Print</h3>
+
+<input id="printmsg" placeholder="Message to print">
+
+<button onclick="sendPrint()">Send Print</button>
+
+</div>
+
+</div>
+
 <script>
+
+const API = "https://adminpanelwebbased.onrender.com/command"
 
 function kickPlayer(){
 
 const player = document.getElementById("player").value
 
-fetch("https://adminpanelwebbased.onrender.com/command",{
+fetch(API,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -28,8 +109,33 @@ type:"kick",
 player:player
 })
 })
-.then(res => res.json())
-.then(data => console.log(data))
+.then(res=>res.json())
+.then(data=>{
+console.log(data)
+alert("Kick command sent")
+})
+
+}
+
+function sendPrint(){
+
+const msg = document.getElementById("printmsg").value
+
+fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+type:"print",
+message:msg
+})
+})
+.then(res=>res.json())
+.then(data=>{
+console.log(data)
+alert("Print command sent")
+})
 
 }
 
